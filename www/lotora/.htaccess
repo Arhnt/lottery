@@ -1,0 +1,8 @@
+RewriteEngine On
+RewriteRule ^(css|img|js|lib)/ - [L]
+RewriteRule ^favicon.ico - [L]
+
+RewriteRule ^ticket index.cgi [L]
+RewriteRule ^submit index.cgi [L]
+
+RewriteRule ^admin admin.cgi [L]

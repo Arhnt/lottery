@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+  <title>Loto</title>
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+  <link type="text/css" rel="stylesheet" href="/lotora/css/main.css">
+  <script>
+    var config = {
+      maxNumber  : [% data.global.maxNumber %],
+      maxNumbers : [% data.global.maxNumbers %],
+      maxGames   : [% data.global.maxGames %],
+      gamePrice  : [% data.global.gamePrice %]
+    };
+    var session = {
+      totalSum   : [% data.session.totalSum %],
+      tickets    : [% data.session.tickets.size %]
+    };
+  </script>
+  <script type="text/javascript" src="/lotora/js/main.js"></script>
+</head>
+<body onload="[% html.body.onload %][% IF error %]alert('[% error %]');[% END %]" onunload="[% html.body.onunload %]">
+  <table class="layout">
+    <tr>
+      <td class="header" align="center"><img border="0" src="/templates/images/logo.png"></td>
+    </tr>
+    <tr>
+      <td width="100%" class="content">
+        <form method="post" action="/lotora/">
+        <table width="100%" class="user_form">
+          <tr>
+            <td colspan="5" class="total_win">Выиграно [% data.global.winSum %] ПЕ*</td>
+          </tr>
+          <tr>
+            <td></td><td></td><td></td><td></td><td class="total_win_hint">*за весь период</td>
+          </tr>
+          <tr>
+            <td width="10%">Ваш ID</td><td width="20%"><input type="text" name="asfn_id" title="asfn_id" value="[% data.session.userAsfnId %]"></td><td></td><td width="20%"></td><td width="20%"></td>
+          </tr>
+          <tr>
+            <td>Имя</td><td><input type="text" name="user_name" value="[% data.session.userName %]"></td><td></td><td>Страна</td><td><input type="text" name="user_country" value="[%  data.session.userCountry %]"></td>
+          </tr>
+          <tr>
+            <td>E-mail</td><td><input type="text" name="user_email" value="[%  data.session.userEmail %]"></td><td></td><td>Населенный пункт</td><td><input type="text" name="user_city" value="[%  data.session.userCity %]"></td>
+          </tr>
+        </table> <!-- end user_form -->
+
+        <table width="100%" class="lottery">
+          <tr><td width="25%"></td>
+            <td class="numbers">[% SET num = 0 %]
+              [% WHILE num < data.global.maxNumber %][% SET num=num+1 %]<a href='javascript:toggleLotteryNumber("[% num %]")' id="lottery_num_[% num %]">[% num %]</a>[% END %]
+            </td>
+            <td width="25%">Выбрано <span id="count_selected_numbers">[% data.session.selectedNumbers %]</span> из [% data.global.maxNumbers %]
+              <input type="hidden" name="selected_lottery_numbers">
+              <br><br><input type="button" class="button" name="auto_select" value="Выбрать автоматически" onClick="autoSelectNumbers()">
+            </td>
+          </tr>
+          <tr><td colspan="3" class="separator"></td></tr>
+          <tr>
+            <td class="count_games">Количество игр: <a href="javascript:decGame()">&lt;</a><input type="text" name="games_count" class="games_count" value="[% data.session.games %]"><a href="javascript:incGame()">&gt;</a></td>
+            <td align="center">Стоимость всего: <span id='total_sum'>[% data.session.totalSum %]</span> ПЕ
+              <br><input type="button" class="button" value="Заполнить ещё один билет" onclick="addTicket()">
+              <br><input type="button" class="button" value="Перейти к перечислению ПЕ" onclick="submitTickets()">
+              [% IF data.session.submit %]
+              <div id="payment" class="payment">Вы собираетесь оплатить [% data.session.tickets.size %] лотерейных билетов, общей стоимостью <b>[% data.session.totalSum %] ПЕ</b>.
+              Нажмите на <a target="_blank" href="https://cab.asfn.me/">эту ссылку</a> для открытия своего ASFN кабинета в новом окне. Вам необходимо создать платеж в пользу <b>[% data.global.asfnId %]</b>.
+              Обязательно укажите этот уникальный код <b>[% data.session.key %]</b> в комментарии к платежу. Можете скопировать комментарий ниже:
+              <div class="comment">Оплата за лотерейные билеты, код: [% data.session.key %]</div>
+              </div>
+              [% END %]
+            </td>
+            <td>Заполнено билетов: [% data.session.tickets.size %]
+              [% IF data.session.tickets.size %]
+              <table class="tickets">
+                <tr><td></td><td></td><td></td></tr>
+              [% FOREACH ticket IN data.session.tickets %]<tr><td>[% ticket.numbers %]</td><td>[% ticket.games %]</td><td><a href="javascript:deleteTicket('[% ticket.id %]')"><img border="0" src="/lotora/img/x2.png"></a></td></tr>[% END %]
+              </table>
+              [% END %]
+            </td>
+            
+          </tr>
+          <tr><td colspan="3" class="separator"></td></tr>
+          <tr><td colspan="3" class="separator"></td></tr>
+          <tr>
+            <td class="last_game_stat">В прошлом розыгрыше:
+               [% FOREACH num IN data.last.statistics.keys.nsort.reverse %]
+               <br>[% num %]: [% IF data.last.statistics.$num %][% data.last.statistics.$num %][% ELSE %]не угадал никто[% END %]
+               [% END %]
+            </td>
+            <td align="center" class="last_game">Победитель ВЫИГРАЛ [% data.last.winSum %] ПЕ
+              <br>Розыгрыш №[% data.last.gameNum %] от [% data.last.gameDate %]
+              [% IF data.last.video %]
+              <iframe width="320" height="240" src="http://www.youtube.com/embed/[% data.last.video %]" frameborder="0" allowfullscreen></iframe>
+              [% ELSE %]
+              <br>Удачные числа последнего розыгрыша:
+              <br>[% data.last.luckyNumbers %]</td>
+              [% END %]
+            <td class="next_game">Следующие розыгрышы (GMT+2.00):
+              [% FOREACH nextGame IN data.session.nextGames %]
+              <br>[% nextGame %]
+              [% END %]
+              <br><br><a class="button" href="/news/">Перейти на сайт</a>
+            </td>
+          </tr>
+        </table> <!-- end lotter -->
+        </form>
+      </td>
+    </tr>
+  </table>
+</body> 
+</html> 

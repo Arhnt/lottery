@@ -1,0 +1,171 @@
+body 
+{
+  background: #1EA5BB;
+  font-family: arial, helvetica, sans-serif;
+}
+
+input
+{
+  border: 1px #5F9E4E solid;
+  background-repeat: no-repeat;
+}
+
+table.layout
+{
+  margin: 0 auto;
+  width: 1000px;
+  border: 1px black solid;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -khtml-border-radius: 10px;
+  border-radius: 10px;
+  background: #fea100 url(../img/bg.png);
+}
+
+table.layout td.header
+{   
+  font-size: 200%;
+  text-align: middle;
+  border-bottom: 1px #FFCA80 solid;
+}
+
+table.user_form td.total_win
+{
+  font-size: 150%;
+  text-align: center;
+  color: #062170;
+  font-weight: bold;
+}
+
+table.user_form td.total_win_hint
+{
+  font-size: 125%;
+  color: #E3D192;
+}
+
+table.lottery
+{
+  margin-top: 20px;
+}
+
+table.lottery td
+{
+  vertical-align: top;
+}
+
+.button
+{
+  border: 1px #5F9E4E solid;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -khtml-border-radius: 10px;
+  border-radius: 10px;
+  color: white;
+  font-weight: bold;
+  background-color: #00c322;
+  padding: 2px 8px;
+  margin-top: 4px;
+  font-size: 80%;
+}
+a.button
+{
+  text-decoration: none;
+  padding: 2px 8px;
+}
+
+
+.content
+{
+  padding: 15px;
+}
+
+table.lottery .games_count
+{
+  width: 30px;
+  margin: 0 5px;
+  text-align: center;
+}
+
+table.lottery .separator
+{
+  height: 10px;
+}
+
+table.lottery .numbers
+{
+  text-align: center;
+  padding: 5px 30px;
+}
+
+table.lottery .numbers a
+{
+  display: inline-block;
+  border: 1px #5F9E4E solid;
+  text-align: center;
+  padding: 0;
+  width: 33px;
+  margin: 5px 10px;
+  text-decoration: none;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  -khtml-border-radius: 4px;
+  border-radius: 4px;
+  background-color: #00c322;
+  color: white;
+  font-weight: bold;
+}
+
+table.lottery .numbers a.selected
+{
+  background-color: #133aac;
+  border: 1px #133aac solid;
+  color: #00c322;
+  font-weight: bold;
+}
+
+.count_games a
+{
+  font-weight: bold;
+  color: #133aac;
+  text-decoration: none;
+}
+
+.count_games a:hover
+{
+  color: #00c322;
+}
+
+.tickets td
+{
+  color: #2b4181;
+  padding: 0 10px 0 5px;
+}
+
+.payment
+{
+  text-align: left;
+  padding: 5px;
+}
+.payment .comment
+{
+  padding: 5px;
+  border: 1px black dotted;
+  color: #ff1300;
+  font-weight: bold;
+}
+
+.last_game
+{
+  color: #2b4181;
+}
+
+.last_game_stat
+{
+  color: #007f16;
+  font-weight: bold;
+}
+
+.next_game
+{
+  color: #007f16;
+}
