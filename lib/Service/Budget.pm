@@ -72,6 +72,7 @@ sub recalcLastBudget
 {
     my ($self, $optionsService) = @_;
     my $budget = $self->findLast();
+    return if(!$budget);
     my $sum = $budget->getSum();
     my $prize = $sum * $optionsService->get('budgetPrize') / 100;
     my $costs = $sum * $optionsService->get('budgetCosts') / 100;
